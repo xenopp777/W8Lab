@@ -1,2 +1,2 @@
 # W8Lab
-Async
+Lab 6: Asynchronous JS + APIs
