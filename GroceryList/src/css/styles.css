@@ -1,9 +1,7 @@
-/* Adapted by Brian Bird from starter styling by Mari Good. */
+/* Adapted by Brian Bird from starter styling by Mari Good. edited by Zoie D */
 
 body {
-  padding: 30px;
-  background-image: url('./images/background.jpeg');
-  background-size: cover;
+  background: whitesmoke;
 }
 
 .overlay {

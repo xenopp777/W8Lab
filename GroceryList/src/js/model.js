@@ -14,8 +14,8 @@ export class GroceryModel {
     } catch (e) {
       // Provide starter entries if local storage is empty/corrupt.
       this.groceries = [
-        { itemName: 'Apples', quantity: '5' },
-        { itemName: 'Milk', quantity: '1 gallon' }
+        { itemName: 'Apples', quantity: '5', productData: null },
+        { itemName: 'Milk', quantity: '1 gallon', productData: null }
       ];
     }
   }
@@ -48,12 +48,20 @@ export class GroceryModel {
     this.onGroceryListChanged = callback;
   }
 
-  addGrocery(itemName, quantity) {
-    const newGrocery = { itemName: itemName, quantity: quantity };
+  addGrocery(itemName, quantity, productData = null) {
+    const newGrocery = { itemName: itemName, quantity: quantity, productData: productData };
     this.commit([...this.groceries, newGrocery]);
   }
 
   deleteGrocery(index) {
     this.commit(this.groceries.filter((_, groceryIndex) => groceryIndex !== index));
+  }
+
+  updateGroceryProductData(index, productData) {
+    const updatedGroceries = [...this.groceries];
+    if (updatedGroceries[index]) {
+      updatedGroceries[index].productData = productData;
+      this.commit(updatedGroceries);
+    }
   }
 }
