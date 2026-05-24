@@ -4,13 +4,19 @@
 
 export class GroceryModel {
   constructor() {
+    this.onGroceryListChanged = () => {};
+
     try {
-      const savedGroceries = JSON.parse(localStorage.getItem('groceries')); // array to hold groceries
-      // retrieves groceries from local storage into savedGroceries
-      if (!Array.isArray(savedGroceries) || !this.allValid(savedGroceries)) {
-        throw new Error('Invalid grocery payload');
+      const savedGroceries = JSON.parse(localStorage.getItem('groceries'));
+
+      if (Array.isArray(savedGroceries) && this.allValid(savedGroceries)) {
+        this.groceries = savedGroceries;
+      } else {
+        this.groceries = [
+          { itemName: 'Apples', quantity: '5', productData: null },
+          { itemName: 'Milk', quantity: '1 gallon', productData: null }
+        ];
       }
-      this.groceries = savedGroceries;
     } catch (e) {
       // Provide starter entries if local storage is empty/corrupt.
       this.groceries = [
@@ -40,7 +46,13 @@ export class GroceryModel {
 
   commit(groceries) {
     this.groceries = groceries;
-    localStorage.setItem('groceries', JSON.stringify(groceries));
+
+    try {
+      localStorage.setItem('groceries', JSON.stringify(groceries));
+    } catch (error) {
+      console.warn('Could not save groceries to localStorage:', error);
+    }
+
     this.onGroceryListChanged(groceries);
   }
 
